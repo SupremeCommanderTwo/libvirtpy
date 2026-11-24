@@ -1,0 +1,116 @@
+<!-- Owned by libvirtxml: interfaces, graphics, character devices, hostdev. -->
+<domain type='kvm'>
+  <name>network-display</name>
+  <memory unit='GiB'>1</memory>
+  <devices>
+    <interface type='bridge'>
+      <mac address='52:54:00:6b:3c:86'/>
+      <source bridge='br0'/>
+      <virtualport type='openvswitch'>
+        <parameters interfaceid='09b11c53-8b5c-4eeb-8f00-d84eaa0aaa4f'/>
+      </virtualport>
+      <model type='virtio'/>
+      <driver name='vhost' queues='4'>
+        <host csum='off' gso='off'/>
+        <guest tso4='off'/>
+      </driver>
+      <bandwidth>
+        <inbound average='1000' peak='5000' burst='1024'/>
+        <outbound average='128'/>
+      </bandwidth>
+      <vlan>
+        <tag id='42' nativeMode='untagged'/>
+      </vlan>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    </interface>
+    <interface type='network'>
+      <source network='default' portgroup='engineering'/>
+      <link state='down'/>
+      <mtu size='9000'/>
+    </interface>
+    <interface type='user'>
+      <backend type='passt'/>
+      <portForward proto='tcp'>
+        <range start='2222' to='22'/>
+      </portForward>
+    </interface>
+    <interface type='udp'>
+      <source address='230.0.0.1' port='5558'>
+        <local address='127.0.0.1' port='5559'/>
+      </source>
+    </interface>
+    <graphics type='spice' port='5900' autoport='no' listen='0.0.0.0'>
+      <listen type='address' address='0.0.0.0'/>
+      <channel name='main' mode='secure'/>
+      <image compression='auto_glz'/>
+      <clipboard copypaste='no'/>
+      <gl enable='yes' rendernode='/dev/dri/renderD128'/>
+    </graphics>
+    <graphics type='vnc' port='-1' autoport='yes' websocket='-1'>
+      <listen type='network' network='vlan0' address='10.0.0.1'/>
+    </graphics>
+    <serial type='pty'>
+      <source path='/dev/pts/3'/>
+      <target type='isa-serial' port='0'>
+        <model name='isa-serial'/>
+      </target>
+    </serial>
+    <console type='tcp'>
+      <source mode='bind' host='127.0.0.1' service='4555'/>
+      <protocol type='telnet'/>
+      <log file='/var/log/console.log' append='off'/>
+      <target type='virtio' port='0'/>
+    </console>
+    <channel type='unix'>
+      <source mode='bind' path='/var/lib/libvirt/qemu/channel/vm.agent'/>
+      <target type='virtio' name='org.qemu.guest_agent.0' state='connected'/>
+    </channel>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <driver name='vfio'/>
+      <source>
+        <address domain='0x0000' bus='0x06' slot='0x02' function='0x0'/>
+      </source>
+      <rom bar='off'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='no'>
+      <source startupPolicy='optional'>
+        <vendor id='0x1234'/>
+        <product id='0xbeef'/>
+      </source>
+    </hostdev>
+    <rng model='virtio'>
+      <rate bytes='1234' period='2000'/>
+      <backend model='random'>/dev/random</backend>
+    </rng>
+    <watchdog model='i6300esb' action='poweroff'/>
+    <panic model='hyperv'/>
+    <filesystem type='mount' accessmode='passthrough'>
+      <driver type='virtiofs' queue='1024'/>
+      <binary path='/usr/libexec/virtiofsd' xattr='on'>
+        <cache mode='always'/>
+        <lock posix='on' flock='on'/>
+      </binary>
+      <source dir='/export'/>
+      <target dir='shared'/>
+    </filesystem>
+    <tpm model='tpm-crb'>
+      <backend type='emulator' version='2.0'>
+        <active_pcr_banks>
+          <sha256/>
+        </active_pcr_banks>
+      </backend>
+    </tpm>
+    <sound model='ich9'>
+      <codec type='micro'/>
+    </sound>
+    <vsock model='virtio'>
+      <cid auto='yes'/>
+    </vsock>
+    <memory model='dimm'>
+      <target>
+        <size unit='MiB'>512</size>
+        <node>0</node>
+      </target>
+    </memory>
+  </devices>
+</domain>

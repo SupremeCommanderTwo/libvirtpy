@@ -1,0 +1,8 @@
+# Sample files in tests/data/ that do not round-trip yet. The tests for these
+# files are xfail(strict=True): fixing a gap makes the test fail until the
+# entry is removed, so this list only shrinks. Never add an entry without a
+# reason. Keys are paths relative to tests/data/. Example entry:
+#
+# ["domain/example.xml"]
+# difference = "/domain/os: missing element"
+# reason = "<os> not modelled yet"

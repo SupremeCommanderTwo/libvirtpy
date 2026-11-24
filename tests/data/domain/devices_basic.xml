@@ -1,0 +1,42 @@
+<!-- Owned by libvirtxml: controllers, inputs, video and balloon. -->
+<domain type='kvm'>
+  <name>devices-basic</name>
+  <memory unit='GiB'>2</memory>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+  </os>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <controller type='pci' index='0' model='pcie-root'/>
+    <controller type='pci' index='1' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='1' port='0x10'/>
+      <alias name='pci.1'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0' multifunction='on'/>
+    </controller>
+    <controller type='usb' index='0' model='qemu-xhci' ports='15'>
+      <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
+    </controller>
+    <controller type='sata' index='0'/>
+    <controller type='scsi' index='0' model='virtio-scsi'>
+      <driver queues='4' iothread='1' iommu='on'/>
+    </controller>
+    <controller type='virtio-serial' index='0' ports='16'/>
+    <input type='tablet' bus='usb'>
+      <address type='usb' bus='0' port='1'/>
+    </input>
+    <input type='mouse' bus='ps2'/>
+    <input type='keyboard' bus='ps2'/>
+    <video>
+      <model type='virtio' heads='1' primary='yes'>
+        <acceleration accel3d='no'/>
+        <resolution x='1920' y='1080'/>
+      </model>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+    </video>
+    <memballoon model='virtio' freePageReporting='on'>
+      <stats period='5'/>
+      <driver iommu='on' ats='on'/>
+    </memballoon>
+  </devices>
+</domain>

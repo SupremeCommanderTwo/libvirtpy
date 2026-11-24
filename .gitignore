@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+# libvirt sample corpus, downloaded by tools/fetch_samples.py
+.cache/
+# IDE
+.idea/workspace.xml
+docs/_build/
+.idea/
+
+# AI tool files and local assistant state: not part of the project
+CLAUDE.md
+GEMINI.md
+.claude/
+.cursor/
+.cursorrules
+.windsurfrules
+.aider*
+.github/copilot-instructions.md
+.continue/
+.codex/

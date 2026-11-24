@@ -1,0 +1,30 @@
+<!-- Owned by libvirtxml: UEFI guest with boot order, clock and lifecycle. -->
+<domain type='kvm'>
+  <name>os-hvm</name>
+  <memory unit='KiB'>1048576</memory>
+  <os firmware='efi'>
+    <type arch='x86_64' machine='pc-q35-9.0'>hvm</type>
+    <firmware>
+      <feature enabled='yes' name='secure-boot'/>
+      <feature enabled='no' name='enrolled-keys'/>
+    </firmware>
+    <loader readonly='yes' secure='yes' type='pflash' format='raw'>/usr/share/edk2/ovmf/OVMF_CODE.secboot.fd</loader>
+    <nvram template='/usr/share/edk2/ovmf/OVMF_VARS.secboot.fd'>/var/lib/libvirt/qemu/nvram/os-hvm_VARS.fd</nvram>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+    <bootmenu enable='yes' timeout='3000'/>
+    <smbios mode='sysinfo'/>
+    <bios useserial='yes' rebootTimeout='-1'/>
+  </os>
+  <clock offset='variable' adjustment='-3600' basis='utc'>
+    <timer name='rtc' tickpolicy='catchup' track='guest'>
+      <catchup threshold='123' slew='120' limit='10000'/>
+    </timer>
+    <timer name='tsc' frequency='3000000000' mode='native'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>coredump-restart</on_crash>
+  <on_lockfailure>poweroff</on_lockfailure>
+</domain>

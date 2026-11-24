@@ -1,0 +1,4 @@
+<domain type='kvm'>
+  <name>minimal</name>
+  <memory>524288</memory>
+</domain>

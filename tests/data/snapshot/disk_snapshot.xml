@@ -1,0 +1,25 @@
+<!-- Owned by libvirtxml: an external disk snapshot. -->
+<domainsnapshot>
+  <name>snap1</name>
+  <description>Before the upgrade</description>
+  <state>disk-snapshot</state>
+  <creationTime>1700000000</creationTime>
+  <parent>
+    <name>snap0</name>
+  </parent>
+  <memory snapshot='external' file='/var/lib/libvirt/images/snap1.mem'/>
+  <disks>
+    <disk name='vda' snapshot='external' type='file'>
+      <driver type='qcow2'/>
+      <source file='/var/lib/libvirt/images/vda.snap1'/>
+    </disk>
+    <disk name='vdb' snapshot='no'/>
+  </disks>
+  <domain>
+    <uuid>c7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  </domain>
+  <active>0</active>
+  <cookie>
+    <hypervisor:state xmlns:hypervisor='urn:example:hv' version='1'/>
+  </cookie>
+</domainsnapshot>

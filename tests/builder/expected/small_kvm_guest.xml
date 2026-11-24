@@ -1,0 +1,11 @@
+<domain type='kvm'>
+  <name>builder</name>
+  <uuid>c7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <memory unit='GiB'>2</memory>
+  <vcpu placement='static'>2</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pmu state='off'/>
+  </features>
+</domain>

@@ -1,0 +1,28 @@
+<!-- Owned by libvirtxml: an NFS pool. -->
+<pool type='netfs'>
+  <name>nfs-pool</name>
+  <uuid>d7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <capacity unit='GiB'>100</capacity>
+  <allocation unit='GiB'>40</allocation>
+  <available unit='GiB'>60</available>
+  <features>
+    <cow state='no'/>
+  </features>
+  <source>
+    <host name='nfs.example.com' port='2049'/>
+    <dir path='/export/images'/>
+    <format type='nfs'/>
+  </source>
+  <target>
+    <path>/var/lib/libvirt/images/nfs</path>
+    <permissions>
+      <mode>0755</mode>
+      <owner>0</owner>
+      <group>0</group>
+      <label>virt_image_t</label>
+    </permissions>
+  </target>
+  <fs:mount_opts xmlns:fs='http://libvirt.org/schemas/storagepool/fs/1.0'>
+    <fs:option name='vers=4'/>
+  </fs:mount_opts>
+</pool>

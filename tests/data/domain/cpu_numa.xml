@@ -1,0 +1,37 @@
+<!-- Owned by libvirtxml: custom CPU model with topology and NUMA. -->
+<domain type='kvm'>
+  <name>cpu-numa</name>
+  <memory unit='GiB'>4</memory>
+  <vcpu placement='static'>4</vcpu>
+  <cpu mode='custom' match='exact' check='partial'>
+    <model fallback='forbid' vendor_id='GenuineIntel'>Skylake-Client</model>
+    <vendor>Intel</vendor>
+    <topology sockets='1' dies='1' cores='2' threads='2'/>
+    <feature policy='require' name='vmx'/>
+    <feature policy='disable' name='hle'/>
+    <cache level='3' mode='emulate'/>
+    <maxphysaddr mode='passthrough' limit='39'/>
+    <numa>
+      <cell id='0' cpus='0-1' memory='2' unit='GiB' memAccess='shared'>
+        <distances>
+          <sibling id='0' value='10'/>
+          <sibling id='1' value='21'/>
+        </distances>
+        <cache level='1' associativity='direct' policy='writeback'>
+          <size value='10' unit='KiB'/>
+          <line value='8' unit='B'/>
+        </cache>
+      </cell>
+      <cell id='1' cpus='2-3' memory='2' unit='GiB' discard='yes'>
+        <distances>
+          <sibling id='0' value='21'/>
+          <sibling id='1' value='10'/>
+        </distances>
+      </cell>
+      <interconnects>
+        <latency initiator='0' target='1' type='access' value='5'/>
+        <bandwidth initiator='0' target='1' cache='1' type='access' value='204800' unit='KiB'/>
+      </interconnects>
+    </numa>
+  </cpu>
+</domain>

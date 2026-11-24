@@ -1,0 +1,18 @@
+<!-- Owned by libvirtxml: a Ceph RBD pool with authentication. -->
+<pool type='rbd'>
+  <name>ceph</name>
+  <source>
+    <name>rbd</name>
+    <host name='10.0.0.1' port='6789'/>
+    <host name='10.0.0.2' port='6789'/>
+    <auth type='ceph' username='admin'>
+      <secret uuid='e7a5fdbd-edaf-9455-926a-d65c16db1809'/>
+    </auth>
+  </source>
+  <refresh>
+    <volume allocation='capacity'/>
+  </refresh>
+  <rbd:config_opts xmlns:rbd='http://libvirt.org/schemas/storagepool/rbd/1.0'>
+    <rbd:option name='rbd_cache' value='true'/>
+  </rbd:config_opts>
+</pool>

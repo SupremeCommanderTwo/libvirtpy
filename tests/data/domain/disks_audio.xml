@@ -1,0 +1,68 @@
+<!-- Owned by libvirtxml: disks of several types, a backing chain, audio. -->
+<domain type='kvm'>
+  <name>disks-audio</name>
+  <memory unit='GiB'>2</memory>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <nvram type='network' format='raw' template='/usr/share/OVMF/VARS.fd'>
+      <source protocol='iscsi' name='iqn.2013-07.com.example:vars'>
+        <host name='example.com' port='6000'/>
+      </source>
+    </nvram>
+  </os>
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none' io='native' discard='unmap' queues='4'>
+        <metadata_cache>
+          <max_size unit='MiB'>16</max_size>
+        </metadata_cache>
+      </driver>
+      <source file='/images/top.qcow2' index='1'>
+        <seclabel model='dac' relabel='no'/>
+      </source>
+      <backingStore type='file' index='2'>
+        <format type='qcow2'/>
+        <source file='/images/base.qcow2'/>
+        <backingStore/>
+      </backingStore>
+      <target dev='vda' bus='virtio'/>
+      <boot order='1'/>
+      <iotune>
+        <total_bytes_sec>10000000</total_bytes_sec>
+        <read_iops_sec>400000</read_iops_sec>
+      </iotune>
+      <serial>ABC123</serial>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </disk>
+    <disk type='network' device='disk'>
+      <driver name='qemu' type='raw'/>
+      <source protocol='rbd' name='pool/image'>
+        <host name='10.0.0.1' port='6789'/>
+        <host name='10.0.0.2' port='6789'/>
+        <auth username='admin'>
+          <secret type='ceph' uuid='c7a5fdbd-edaf-9455-926a-d65c16db1809'/>
+        </auth>
+      </source>
+      <target dev='vdb' bus='virtio'/>
+    </disk>
+    <disk type='block' device='lun' sgio='filtered' rawio='yes'>
+      <driver name='qemu' type='raw'/>
+      <source dev='/dev/sdb'>
+        <reservations managed='yes'/>
+      </source>
+      <target dev='sda' bus='scsi'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <target dev='sdc' bus='sata'/>
+      <readonly/>
+    </disk>
+    <audio id='1' type='pulseaudio' serverName='/run/user/1000/pulse/native'>
+      <input name='mic' latency='20'/>
+      <output mixingEngine='yes' voices='1'>
+        <settings frequency='44100' channels='2' format='s16'/>
+      </output>
+    </audio>
+    <audio id='2' type='none'/>
+  </devices>
+</domain>

@@ -1,0 +1,124 @@
+<!-- Owned by libvirtxml: tuning, features, sysinfo and extension namespaces. -->
+<domain type='kvm'>
+  <name>host-tuning</name>
+  <uuid>c7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <metadata>
+    <my:data xmlns:my='http://example.com/my/1.0' version='2'>
+      <my:owner>team</my:owner>
+    </my:data>
+  </metadata>
+  <memory unit='GiB'>8</memory>
+  <memtune>
+    <hard_limit unit='GiB'>10</hard_limit>
+    <swap_hard_limit unit='GiB'>12</swap_hard_limit>
+  </memtune>
+  <memoryBacking>
+    <hugepages>
+      <page size='2048' unit='KiB' nodeset='0'/>
+    </hugepages>
+    <nosharepages/>
+    <locked/>
+    <source type='memfd'/>
+    <access mode='shared'/>
+    <allocation mode='immediate' threads='4'/>
+  </memoryBacking>
+  <blkiotune>
+    <weight>500</weight>
+    <device>
+      <path>/dev/sda</path>
+      <weight>200</weight>
+      <read_bytes_sec>1000000</read_bytes_sec>
+    </device>
+  </blkiotune>
+  <vcpu placement='static'>4</vcpu>
+  <vcpus>
+    <vcpu id='0' enabled='yes' hotpluggable='no' order='1'/>
+    <vcpu id='1' enabled='no' hotpluggable='yes'/>
+  </vcpus>
+  <iothreads>2</iothreads>
+  <iothreadids>
+    <iothread id='1'>
+      <poll max='32' grow='0'/>
+    </iothread>
+  </iothreadids>
+  <cputune>
+    <shares>2048</shares>
+    <period>100000</period>
+    <quota>-1</quota>
+    <vcpupin vcpu='0' cpuset='0-1'/>
+    <vcpupin vcpu='1' cpuset='2-3'/>
+    <emulatorpin cpuset='0'/>
+    <vcpusched vcpus='0-1' scheduler='fifo' priority='1'/>
+    <cachetune vcpus='0-1'>
+      <cache id='0' level='3' type='both' size='3' unit='MiB'/>
+      <monitor level='3' vcpus='1'/>
+    </cachetune>
+  </cputune>
+  <numatune>
+    <memory mode='strict' nodeset='0-1'/>
+    <memnode cellid='0' mode='preferred' nodeset='0'/>
+  </numatune>
+  <resource>
+    <partition>/machine/production</partition>
+  </resource>
+  <sysinfo type='smbios'>
+    <bios>
+      <entry name='vendor'>Example</entry>
+    </bios>
+    <system>
+      <entry name='manufacturer'>Acme</entry>
+      <entry name='serial'>1234</entry>
+    </system>
+    <oemStrings>
+      <entry>app1:foo</entry>
+      <entry>app2:bar</entry>
+    </oemStrings>
+  </sysinfo>
+  <sysinfo type='fwcfg'>
+    <entry name='opt/org.example/id'>9</entry>
+    <entry name='opt/org.example/blob' file='/tmp/blob'/>
+  </sysinfo>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <hyperv mode='custom'>
+      <relaxed state='on'/>
+      <spinlocks state='on' retries='4096'/>
+      <vendor_id state='on' value='KVM Hv'/>
+      <stimer state='on'>
+        <direct state='on'/>
+      </stimer>
+    </hyperv>
+    <kvm>
+      <hidden state='on'/>
+      <dirty-ring state='on' size='4096'/>
+    </kvm>
+    <smm state='on'>
+      <tseg unit='MiB'>48</tseg>
+    </smm>
+    <ioapic driver='kvm'/>
+    <gic version='3'/>
+  </features>
+  <pm>
+    <suspend-to-mem enabled='no'/>
+    <suspend-to-disk enabled='no'/>
+  </pm>
+  <seclabel type='dynamic' model='selinux' relabel='yes'>
+    <label>system_u:system_r:svirt_t:s0:c1,c2</label>
+    <imagelabel>system_u:object_r:svirt_image_t:s0:c1,c2</imagelabel>
+  </seclabel>
+  <seclabel type='none' model='dac'/>
+  <launchSecurity type='sev'>
+    <cbitpos>47</cbitpos>
+    <reducedPhysBits>1</reducedPhysBits>
+    <policy>0x0003</policy>
+  </launchSecurity>
+  <qemu:commandline xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='pvpanic'/>
+    <qemu:env name='QEMU_AUDIO_DRV' value='none'/>
+  </qemu:commandline>
+</domain>

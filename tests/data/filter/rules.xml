@@ -1,0 +1,16 @@
+<!-- Owned by libvirtxml: a filter with rules for several protocols. -->
+<filter name='test-filter' chain='root' priority='-700'>
+  <uuid>b7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <filterref filter='clean-traffic'>
+    <parameter name='IP' value='10.0.0.1'/>
+  </filterref>
+  <rule action='accept' direction='out' priority='100' statematch='false'>
+    <tcp srcipaddr='10.0.0.0' srcipmask='24' dstportstart='22' dstportend='22' state='NEW,ESTABLISHED'/>
+  </rule>
+  <rule action='drop' direction='in'>
+    <arp opcode='Request' gratuitous='true'/>
+  </rule>
+  <rule action='reject' direction='inout'>
+    <all-ipv6 srcipaddr='fe80::' srcipmask='10'/>
+  </rule>
+</filter>

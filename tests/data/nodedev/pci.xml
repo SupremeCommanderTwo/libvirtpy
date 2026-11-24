@@ -1,0 +1,30 @@
+<!-- Owned by libvirtxml: a PCI network card with SR-IOV functions. -->
+<device>
+  <name>pci_0000_01_00_0</name>
+  <path>/sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0</path>
+  <parent>pci_0000_00_01_0</parent>
+  <driver>
+    <name>ixgbe</name>
+  </driver>
+  <capability type='pci'>
+    <class>0x020000</class>
+    <domain>0</domain>
+    <bus>1</bus>
+    <slot>0</slot>
+    <function>0</function>
+    <product id='0x10fb'>82599ES 10-Gigabit SFI/SFP+ Network Connection</product>
+    <vendor id='0x8086'>Intel Corporation</vendor>
+    <capability type='virt_functions' maxCount='63'>
+      <address domain='0x0000' bus='0x01' slot='0x10' function='0x0'/>
+      <address domain='0x0000' bus='0x01' slot='0x10' function='0x2'/>
+    </capability>
+    <iommuGroup number='14'>
+      <address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    </iommuGroup>
+    <numa node='0'/>
+    <pci-express>
+      <link validity='cap' port='0' speed='5' width='8'/>
+      <link validity='sta' speed='5' width='8'/>
+    </pci-express>
+  </capability>
+</device>

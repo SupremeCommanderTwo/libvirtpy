@@ -1,0 +1,11 @@
+<!-- Owned by libvirtxml: a pull-mode backup. -->
+<domainbackup mode='pull'>
+  <incremental>checkpoint1</incremental>
+  <server transport='unix' socket='/run/libvirt/backup.sock'/>
+  <disks>
+    <disk name='vda' backup='yes' type='file' exportname='vda-export'>
+      <scratch file='/var/tmp/scratch-vda.qcow2'/>
+    </disk>
+    <disk name='vdb' backup='no'/>
+  </disks>
+</domainbackup>

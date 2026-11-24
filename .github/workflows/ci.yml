@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          allow-prereleases: true
+      - run: pip install -e . --group dev --group docs
+      - run: ruff format --check
+      - run: ruff check
+      - run: mypy
+      - run: pytest --cov --cov-report=term
+      - run: python -m sphinx -W -b html docs docs/_build/html
+
+  corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          allow-prereleases: true
+      - run: pip install -e . --group dev
+      - run: python tools/fetch_samples.py
+      - run: pytest -m corpus -q --tb=short

@@ -1,0 +1,53 @@
+<!-- Owned by libvirtxml: a NAT network with DHCP, DNS and a portgroup. -->
+<network ipv6='yes' trustGuestRxFilters='no'>
+  <name>nat-dhcp</name>
+  <uuid>c7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <title>Test network</title>
+  <metadata>
+    <app:note xmlns:app='urn:example:app'>hello</app:note>
+  </metadata>
+  <forward mode='nat' dev='eth0'>
+    <nat ipv6='no'>
+      <address start='192.0.2.10' end='192.0.2.20'/>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr7' stp='on' delay='0'/>
+  <mtu size='9000'/>
+  <mac address='52:54:00:6b:3c:86'/>
+  <domain name='example.com' localOnly='yes'/>
+  <dns enable='yes' forwardPlainNames='no'>
+    <forwarder addr='8.8.8.8'/>
+    <forwarder domain='example.com' addr='192.0.2.1'/>
+    <txt name='example' value='example value'/>
+    <srv service='name' protocol='tcp' domain='test-domain-name' target='.' port='1024' priority='10' weight='10'/>
+    <host ip='192.0.2.5'>
+      <hostname>host1</hostname>
+      <hostname>host1.example.com</hostname>
+    </host>
+  </dns>
+  <bandwidth>
+    <inbound average='1000' peak='5000' burst='1024'/>
+  </bandwidth>
+  <ip address='192.0.2.1' netmask='255.255.255.0' localPtr='yes'>
+    <tftp root='/srv/tftp'/>
+    <dhcp>
+      <range start='192.0.2.100' end='192.0.2.254'>
+        <lease expiry='24' unit='hours'/>
+      </range>
+      <host mac='00:16:3e:77:e2:ed' name='server1' ip='192.0.2.10'/>
+      <host id='0:1:0:1:18:aa:62:fe:0:16:3e:44:55:66' ip='2001:db8::10'/>
+      <bootp file='pxelinux.0' server='192.0.2.2'/>
+    </dhcp>
+  </ip>
+  <ip family='ipv6' address='2001:db8:ca2:2::1' prefix='64'/>
+  <route family='ipv4' address='192.168.222.0' prefix='24' gateway='192.168.122.2' metric='2'/>
+  <portgroup name='engineering' default='yes'>
+    <vlan>
+      <tag id='42'/>
+    </vlan>
+  </portgroup>
+  <dnsmasq:options xmlns:dnsmasq='http://libvirt.org/schemas/network/dnsmasq/1.0'>
+    <dnsmasq:option value='cname=*.example.com,example.com'/>
+  </dnsmasq:options>
+</network>

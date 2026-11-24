@@ -1,0 +1,15 @@
+<!-- Owned by libvirtxml: container boot (LXC). -->
+<domain type='lxc'>
+  <name>container</name>
+  <memory unit='KiB'>65536</memory>
+  <os>
+    <type arch='x86_64'>exe</type>
+    <init>/sbin/init</init>
+    <initarg>--unit</initarg>
+    <initarg>emergency.service</initarg>
+    <initenv name='LANG'>C.UTF-8</initenv>
+    <initdir>/root</initdir>
+    <inituser>root</inituser>
+    <initgroup>root</initgroup>
+  </os>
+</domain>

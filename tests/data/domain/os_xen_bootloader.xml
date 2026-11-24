@@ -1,0 +1,12 @@
+<!-- Owned by libvirtxml: Xen PV guest with an empty <bootloader/>. -->
+<domain type='xen'>
+  <name>xenpv</name>
+  <memory>262144</memory>
+  <bootloader/>
+  <bootloader_args>-q</bootloader_args>
+  <os>
+    <type arch='x86_64' machine='xenpv'>linux</type>
+    <kernel>/boot/vmlinuz</kernel>
+    <cmdline></cmdline>
+  </os>
+</domain>

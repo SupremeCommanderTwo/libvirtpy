@@ -1,0 +1,34 @@
+<!-- Owned by libvirtxml: an encrypted qcow2 volume with a backing store. -->
+<volume type='file'>
+  <name>disk.qcow2</name>
+  <key>/var/lib/libvirt/images/disk.qcow2</key>
+  <capacity unit='GiB'>20</capacity>
+  <allocation unit='MiB'>512</allocation>
+  <physical unit='MiB'>520</physical>
+  <target>
+    <path>/var/lib/libvirt/images/disk.qcow2</path>
+    <format type='qcow2'/>
+    <permissions>
+      <mode>0644</mode>
+      <owner>107</owner>
+      <group>107</group>
+    </permissions>
+    <timestamps>
+      <atime>1700000000.1</atime>
+      <mtime>1700000001.2</mtime>
+    </timestamps>
+    <encryption format='luks'>
+      <secret type='passphrase' uuid='f7a5fdbd-edaf-9455-926a-d65c16db1809'/>
+    </encryption>
+    <compat>1.1</compat>
+    <nocow/>
+    <clusterSize unit='KiB'>64</clusterSize>
+    <features>
+      <lazy_refcounts/>
+    </features>
+  </target>
+  <backingStore>
+    <path>/var/lib/libvirt/images/base.qcow2</path>
+    <format type='qcow2'/>
+  </backingStore>
+</volume>

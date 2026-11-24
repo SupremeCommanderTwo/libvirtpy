@@ -1,0 +1,19 @@
+<!-- Owned by libvirtxml: exercises presence flags and on/off features. -->
+<domain type='kvm' id='7'>
+  <name>features</name>
+  <uuid>c7a5fdbd-edaf-9455-926a-d65c16db1809</uuid>
+  <title>Feature flags</title>
+  <description>Guest with <![CDATA[several]]> hypervisor features</description>
+  <maxMemory slots='16' unit='KiB'>8388608</maxMemory>
+  <memory unit='GiB' dumpCore='off'>4</memory>
+  <currentMemory unit='MiB'>2048</currentMemory>
+  <vcpu placement='static' cpuset='0-3,^2' current='2'>4</vcpu>
+  <features>
+    <acpi/>
+    <apic eoi='on'/>
+    <pae/>
+    <hap/>
+    <pmu state='off'/>
+    <vmport state='on'/>
+  </features>
+</domain>
